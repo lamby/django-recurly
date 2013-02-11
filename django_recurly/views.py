@@ -1,8 +1,9 @@
+import recurly
+
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .client import get_client
 from .decorators import recurly_basic_authentication
 
 from . import signals
@@ -11,15 +12,13 @@ from . import signals
 @recurly_basic_authentication
 @require_POST
 def push_notifications(request):
-    client = get_client()
-
-    name = client.parse_notification(request.raw_post_data)
+    data = recurly.objects_for_push_notification(request.raw_post_data)
 
     try:
-        signal = getattr(signals, name)
+        signal = getattr(signals, data['type'])
     except AttributeError:
         return HttpResponseBadRequest("Invalid notification name.")
 
-    signal.send(sender=client, data=client.response)
+    signal.send(sender=request, data=data)
 
     return HttpResponse()
