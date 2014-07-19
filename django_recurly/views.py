@@ -12,7 +12,7 @@ from . import signals
 @recurly_basic_authentication
 @require_POST
 def push_notifications(request):
-    data = recurly.objects_for_push_notification(request.raw_post_data)
+    data = recurly.objects_for_push_notification(request.body)
 
     try:
         signal = getattr(signals, data['type'])
