@@ -20,3 +20,8 @@ successful_payment_notification = Signal(providing_args=('data',))
 failed_payment_notification = Signal(providing_args=('data',))
 successful_refund_notification = Signal(providing_args=('data',))
 void_payment_notification = Signal(providing_args=('data',))
+
+# Invoices
+new_invoice_notification = Signal(providing_args=('data',))
+closed_invoice_notification = Signal(providing_args=('data',))
+past_due_invoice_notification = Signal(providing_args=('data',))
