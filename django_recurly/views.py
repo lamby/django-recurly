@@ -12,7 +12,12 @@ from . import signals
 @recurly_basic_authentication
 @require_POST
 def push_notifications(request):
-    data = recurly.objects_for_push_notification(request.body)
+    try:
+        raw_data = request.body # Django 1.6+
+    except AttributeError:
+        raw_data = request.raw_post_data
+
+    data = recurly.objects_for_push_notification(raw_data)
 
     try:
         signal = getattr(signals, data['type'])
