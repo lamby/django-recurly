@@ -6,7 +6,7 @@ setup(
     name='django-recurly',
 
     url="https://chris-lamb.co.uk/projects/django-recurly",
-    version='3',
+    version='3.0.1',
     description="Lightlight Recurly.com integration for Django",
 
     author="Chris Lamb",
